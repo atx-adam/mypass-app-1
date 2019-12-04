@@ -30,11 +30,16 @@ app.engine('html', function (filePath, options, callback) {
     return callback(null, rendered);
   });
 });
-app.set('views', '../webclient/ui');  //WHERE TO LOOK FOR HTML FILES
+
+// app.set('views', '../webclient/ui');  //WHERE TO LOOK FOR HTML FILES
+app.set('views', '../reactapp');  //WHERE TO LOOK FOR HTML FILES
 app.set('view engine', 'html');
 
-app.use(favicon(path.join(__dirname, '../webclient/images/', 'favicon.ico')));  //WHERE TO FIND IMAGE FILES
-app.use(express.static('../webclient/'));
+// app.use(favicon(path.join(__dirname, '../webclient/images/', 'favicon.ico')));  //WHERE TO FIND IMAGE FILES
+// app.use(express.static('../webclient/'));
+app.use(favicon(path.join(__dirname, '../reactapp/', 'favicon.ico')));  //WHERE TO FIND IMAGE FILES
+app.use(express.static('../reactapp/'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());

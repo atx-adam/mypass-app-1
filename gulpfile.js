@@ -146,6 +146,21 @@ function Web_IMG(cb) {
 }
 
 
+exports.REACT_APP=REACT_APP;
+function REACT_APP(cb) {
+  // , 'webclient/src/modules/**/*.less'
+  
+  var files = ['webclient-reactjs/build/**'];
+  gulp.src(files)
+    .on("error", handleError)
+    .pipe(gulp.dest('publish/reactapp/'));
+
+    if(cb){
+      cb();
+    }
+}
+
+
 
 function handleError(err) {
   console.log(err.toString());
