@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd publish/server && node app.js "
+  },
   "author": "Jerry Peters jerry@microdb.co",
   "license": "ISC",
   "devDependencies": {
@@ -39,39 +43,6 @@
     "passport-local": "^1.0.0",
     "request": "^2.88.0",
     "serve-favicon": "^2.5.0",
-    "uuid": "^3.3.3",
-    "@fortawesome/react-fontawesome": "^0.1.7",
-    "axios": "^0.19.0",
-    "bootstrap": "^4.3.1",
-    "font-awesome": "^4.7.0",
-    "node-sass": "^4.13.0",
-    "react": "^16.11.0",
-    "react-bootstrap": "^1.0.0-beta.14",
-    "react-dom": "^16.11.0",
-    "react-router": "^5.1.2",
-    "react-router-dom": "^5.1.2",
-    "react-scripts": "3.2.0"
-  },
-  "scripts": {
-    "start_old": "cd publish/server && node app.js ",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "uuid": "^3.3.3"
   }
 }
