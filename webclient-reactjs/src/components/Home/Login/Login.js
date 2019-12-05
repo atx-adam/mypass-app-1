@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import axios from 'axios';
-import { SSL_OP_LEGACY_SERVER_CONNECT } from 'constants';
 class Login extends Component {
 
   handleChange = e => {
@@ -31,10 +30,9 @@ class Login extends Component {
       },
       { withCredentials: true }
     ).then(res => {
-      console.log(res);
-      // if (res.data.logged_in) {
-      //   this.props.handleSuccessfulAuth(res.data)
-      // }
+      if (res.data.logged_in) {
+        this.props.handleSuccessfulAuth(res.data)
+      }
     }).catch(error => {
       console.log("loggin error", error)
     });
@@ -45,13 +43,13 @@ class Login extends Component {
     return (
         <div className="base-container" ref={this.props.containerRef}>
           <h1>MyPass</h1>
-        <div className="header">Login</div>
+        <div className="header">Log</div>
           <div className="content">
             <form className="form" onSubmit={this.handleSubmit}>
               <Row>
                 <Col xs={8} sm={8} md={12} lg={12}>
                   <div className="form-group">
-                    <label htmlFor="username">Username</label>
+                    <label htmlFor="username">User</label>
                     <input
                     type="text"
 
