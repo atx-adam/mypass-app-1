@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import axios from 'axios';
 class Login extends Component {
 
   handleChange = e => {
@@ -16,27 +17,27 @@ class Login extends Component {
     this.props.onSignIn(username, password)
   }
 
-  // handleSubmit = e => {
-  //   const { email, password } = this.state;
-  //
-  //   axios.post(
-  //     "http://localhost:3000/sessions",
-  //     {
-  //       user: {
-  //         email: email,
-  //         password: password
-  //       }
-  //     },
-  //     { withCredentials: true }
-  //   ).then(res => {
-  //     if (res.data.logged_in) {
-  //       this.props.handleSuccessfulAuth(res.data)
-  //     }
-  //   }).catch(error => {
-  //     console.log("loggin error", error)
-  //   });
-  //   e.preventDefault();
-  // }
+  handleSubmit = e => {
+    const { email, password } = this.state;
+  
+    axios.post(
+      "http://localhost:9005/auth/login",
+      {
+         
+          email: email,
+          password: password
+        
+      },
+      { withCredentials: true }
+    ).then(res => {
+      if (res.data.logged_in) {
+        this.props.handleSuccessfulAuth(res.data)
+      }
+    }).catch(error => {
+      console.log("loggin error", error)
+    });
+    e.preventDefault();
+  }
 
   render() {
     return (
@@ -44,7 +45,7 @@ class Login extends Component {
           <h1>MyPass</h1>
         <div className="header">Login</div>
           <div className="content">
-            <form className="form" onSubmit={this.handleSignIn}>
+            <form className="form" onSubmit={this.handleSubmit}>
               <Row>
                 <Col xs={8} sm={8} md={12} lg={12}>
                   <div className="form-group">
