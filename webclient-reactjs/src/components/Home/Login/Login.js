@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import axios from 'axios';
+import { SSL_OP_LEGACY_SERVER_CONNECT } from 'constants';
 class Login extends Component {
 
   handleChange = e => {
@@ -10,12 +11,12 @@ class Login extends Component {
     })
   }
 
-  handleSignIn = (e) => {
-    e.preventDefault();
-    let username = this.refs.username
-    let password = this.refs.password
-    this.props.onSignIn(username, password)
-  }
+  // handleSignIn = (e) => {
+  //   e.preventDefault();
+  //   let username = this.refs.username
+  //   let password = this.refs.password
+  //   this.props.onSignIn(username, password)
+  // }
 
   handleSubmit = e => {
     const { email, password } = this.state;
@@ -30,9 +31,10 @@ class Login extends Component {
       },
       { withCredentials: true }
     ).then(res => {
-      if (res.data.logged_in) {
-        this.props.handleSuccessfulAuth(res.data)
-      }
+      console.log(res);
+      // if (res.data.logged_in) {
+      //   this.props.handleSuccessfulAuth(res.data)
+      // }
     }).catch(error => {
       console.log("loggin error", error)
     });
@@ -73,7 +75,7 @@ class Login extends Component {
                   </div>
                 </Col>
               </Row>
-                <input type="submit" className="btn" value="Login" />
+                <input type="submit" className="btn" value="Log" onSubmit={this.handleSubmit} />
                 <button className="btn" type="button" onClick={ () => this.changeView("signUp")}>Create an Account</button>
             </form>
           </div>
