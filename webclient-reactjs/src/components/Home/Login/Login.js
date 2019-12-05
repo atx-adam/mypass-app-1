@@ -43,13 +43,13 @@ class Login extends Component {
     return (
         <div className="base-container" ref={this.props.containerRef}>
           <h1>MyPass</h1>
-        <div className="header">Log</div>
+        <div className="header">Login</div>
           <div className="content">
             <form className="form" onSubmit={this.handleSubmit}>
               <Row>
                 <Col xs={8} sm={8} md={12} lg={12}>
                   <div className="form-group">
-                    <label htmlFor="username">User</label>
+                    <label htmlFor="username">Username</label>
                     <input
                     type="text"
 
@@ -73,7 +73,7 @@ class Login extends Component {
                   </div>
                 </Col>
               </Row>
-                <input type="submit" className="btn" value="Log" onSubmit={this.handleSubmit} />
+                <input type="submit" className="btn" value="Login" />
                 <button className="btn" type="button" onClick={ () => this.changeView("signUp")}>Create an Account</button>
             </form>
           </div>
