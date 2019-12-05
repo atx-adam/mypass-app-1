@@ -19,7 +19,7 @@ class Login extends Component {
 
   handleSuccessfulAuth = (data) => {
     this.props.handleLogin(data);
-    this.props.history.push("/auth/login");
+    this.props.history.push("/");
   }
 
   handleSignIn = (e) => {
@@ -43,10 +43,10 @@ class Login extends Component {
       },
       { withCredentials: true }
     ).then(res => {
-      console.log("yay!")
-      if (res.data.logged_in) {
-        this.props.handleSuccessfulAuth(res.data)
-      }
+      console.log(res)
+      // if (res.data.logged_in) {
+      //   this.props.handleSuccessfulAuth(res.data)
+      // }
     }).catch(error => {
       console.log("loggin error", error)
     });
@@ -59,7 +59,7 @@ class Login extends Component {
           <h1>MyPass</h1>
         <div className="header">Login</div>
           <div className="content">
-            <form className="form" onSubmit={this.handleSuccessfulAuth}>
+            <form className="form" onSubmit={this.handleSubmit}>
               <Row>
                 <Col xs={8} sm={8} md={12} lg={12}>
                   <div className="form-group">
