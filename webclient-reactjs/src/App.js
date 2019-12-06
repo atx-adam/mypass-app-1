@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.scss';
 import { Home, OwnerDashboard, ToggleBar, ServiceProviderHomePage, ServiceProviderOwnerDoc } from './components/index';
@@ -7,26 +7,42 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'
 import axios from 'axios';
 
-const App = () => {
+class App extends Component {
 
-  const [user, setUser] = useState(null);
-  const [isFiltered, setIsFiltered] = useState(false);
-  const [documents, setDocuments] = useState([]);
-  const [search, setSearch] = useState("");
-  const [pendingDocument, setPendingDocument] = useState("");
+  constructor(props) {
+    super(props);
+    this.state = {
+      documents: [],
+      isFiltered: false,
+      pendingDocument: "",
+      search: ""
+    }
+  }
 
-  useEffect(async () => {
-    const result = await axios.get(`/owner/docs`);
-    console.log(result.data)
-    setDocuments(result.data);
-  });
+  // const [user, setUser] = useState(null);
+  // const [isFiltered, setIsFiltered] = useState(false);
+  // const [documents, setDocuments] = useState([]);
+  // const [search, setSearch] = useState("");
+  // const [pendingDocument, setPendingDocument] = useState("");
 
-  // componentDidMount() {
-  //    axios.get(`/owner/docs`).then(res => {
-  //     console.log(res);
-  //     this.setState({ documents: res.data })
+  // useEffect(async () => {
+  //   const result = await axios.get(`http://localhost:9005/owner/getdocs`);
+  //   const promise = result.then(response => {
+
   //   })
-  // }
+  //   setDocuments(result.data);
+  // });
+
+  componentDidMount() {
+     axios.get(`http://localhost:9005/owner/getdocs`).then(res => {
+       const res_object = JSON.parse(res)
+      if(res_object["message"] === "success") {
+        this.setState({ documents: res.data })
+      }
+    }).catch(error => {
+      console.log("Data error")
+    })
+  }
 
   // const getDocuments = () => {
   //   axios.get(`/owner/getdocs`).then((res) => {
@@ -37,101 +53,109 @@ const App = () => {
   
   
 
-  const signIn = (username, password) => {
-    setUser({
-      username,
-      password
+  //  signIn = (username, password) => {
+  //   setUser({
+  //     username,
+  //     password
+  //   })
+  // }
+
+   updateSearch = (e) => {
+    this.setState({ search: e.target.value })
+  }
+
+  //  signOut = () => {
+  //   setUser(null)
+  // }
+
+   toggleDocumentProperty = (property, id) => {
+    this.setState({
+      documents: this.state.documents.map(document => {
+        if (id === document.id) {
+          return {
+            ...document,
+            [property]: !document[property]
+          };
+        }
+        return document
+      })
     })
   }
 
-  const updateSearch = (e) => {
-    setSearch(e.target.value)
+   toggleSelected = id => {
+   this.toggleDocumentProperty("isSelected", id);
   }
 
-  const signOut = () => {
-    setUser(null)
+   removeDocument = id => {
+    this.setState({ documents: this.state.documents.filter(document => id !== document.id) })
   }
 
-  const toggleDocumentProperty = (property, id) => {
-    setDocuments(documents.map(document => {
-      if(id === document.id) {
-        return {
-          ...document,
-          [property]: !document[property]
-        };
-      }
-      return document;
-    }))
+   toggleEditing = id => {
+    this.toggleDocumentProperty("isEditing", id);
   }
 
-  const toggleSelected = id => {
-   toggleDocumentProperty("isSelected", id);
+   setName = (name, id) => {
+    this.setState({
+      documents: this.state.documents.map(document => {
+        if(id === document.id) {
+          return {
+            ...document,
+            name
+          };
+        }
+        return document;
+      })
+    })
   }
 
-  const removeDocument = id => {
-    setDocuments(documents.filter(document => id !== document.id))
+   toggleFilter = () => {
+    this.setState({ isFiltered: !this.state.isFiltered })
   }
 
-  const toggleEditing = id => {
-    toggleDocumentProperty("isEditing", id);
+   handleNameInput = e => {
+    this.setState({ pendingDocument: e.target.value })
   }
 
-  const setName = (name, id) => {
-    setDocuments(documents.map(document => {
-      if (id === document.id) {
-        return {
-          ...document,
-          name
-        };
-      }
-      return document;
-    }))
-  }
-
-  const toggleFilter = () => {
-    setIsFiltered(!isFiltered)
-  }
-
-  const handleNameInput = e => {
-    setPendingDocument(e.target.value)
-  }
-
-  const newDocumentSubmitHandler = () => {
+   newDocumentSubmitHandler = () => {
     let doc = document.getElementById('document')
     let docUrl = URL.createObjectURL(doc.files[0])
     let id = Date.now();
-    setDocuments([
-      {
-        name: pendingDocument,
-        isSelected: false,
-        isEditing: false,
-        url: docUrl,
-        id
-      },
-      ...documents
-    ],
-    setPendingDocument)
+    this.setState({
+      documents: [
+        {
+          name: this.state.pendingDocument,
+          isConfirmed: false,
+          isEditing: false,
+          url: docUrl,
+          id
+        },
+        ...this.state.documents
+      ],
+      pendingDocument: ''
+    })
   }
 
-  const getTotalDocuments = () => documents.length;
+   getTotalDocuments = () => this.state.documents.length;
 
-  const getSelectedDocuments = () => documents.reduce((total, document) => document.isSelected ? total + 1 : total, 0);
+   getSelectedDocuments = () => this.state.documents.reduce((total, document) => document.isSelected ? total + 1 : total, 0);
 
-    const totalDocuments = getTotalDocuments();
-    const numberSelected = getSelectedDocuments();
-    const numberUnselected = totalDocuments - numberSelected;
-
-    let filteredDocuments = documents.filter(
-      (document) => {
-        return document.name.toLowerCase().indexOf(search.toLowerCase()) !== -1;
-      }
-    );
+     
+    render() {
+      const totalDocuments = this.getTotalDocuments();
+      const numberSelected = this.getSelectedDocuments();
+      const numberUnselected = totalDocuments - numberSelected;
+ 
+      let filteredDocuments = this.state.documents.filter(
+       (document) => {
+         return document.name.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+       }
+     );
+    
     return (
       
       <div className="App">
-      {
-        (user) ?
-        // <Router>
+      
+        {/* // <Router>
         //   <Switch>
         //   <Route exact={true} path="/">
         //       <ServiceProviderHomePage />
@@ -140,29 +164,26 @@ const App = () => {
         //       <ServiceProviderOwnerDoc />
         //   </Route>
         // </Switch>
-        // </Router>
+        // </Router> */}
         <OwnerDashboard
-        user={user}
-        onSignOut={signOut}
-        pendingDocument={pendingDocument}
-        newDocumentSubmitHandler={newDocumentSubmitHandler}
-        handleNameInput={handleNameInput}
-        toggleFilter={toggleFilter}
-        isFiltered={isFiltered}
-        totalDocuments={totalDocuments}
-        numberSelected={numberSelected}
-        numberUnselected={numberUnselected}
-        filteredDocuments={filteredDocuments}
-        toggleSelected={toggleSelected}
-        toggleEditing={toggleEditing}
-        updateSearch={updateSearch}
-        search={search}
-        setName={setName}
-        removeDocument={removeDocument} />
+        pendingDocument={this.state.pendingDocument}
+        newDocumentSubmitHandler={this.newDocumentSubmitHandler}
+        handleNameInput={this.handleNameInput}
+        toggleFilter={this.toggleFilter}
+        isFiltered={this.state.isFiltered}
+        totalDocuments={this.totalDocuments}
+        numberSelected={this.numberSelected}
+        numberUnselected={this.numberUnselected}
+        filteredDocuments={this.filteredDocuments}
+        toggleSelected={this.toggleSelected}
+        toggleEditing={this.toggleEditing}
+        updateSearch={this.updateSearch}
+        search={this.state.search}
+        setName={this.setName}
+        removeDocument={this.removeDocument} />
         
-        // <ServiceProviderOwnerDoc />
-        :
-        <div className="login">
+        {/* // <ServiceProviderOwnerDoc /> */}
+        {/* <div className="login">
           <Container>
             <Row>
               <Col />
@@ -174,10 +195,10 @@ const App = () => {
               <Col />
             </Row>
           </Container>
-        </div>
-      }
+        </div> */}
       </div>
     )
+    }
 }
 
 export default App;
