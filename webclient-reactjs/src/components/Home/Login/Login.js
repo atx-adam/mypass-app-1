@@ -4,6 +4,14 @@ import Col from 'react-bootstrap/Col';
 import axios from 'axios';
 class Login extends Component {
 
+  constructor(props){
+    super(props);
+    this.state = {
+      email: '',
+      password: ''
+    }
+  }
+
   handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -11,23 +19,23 @@ class Login extends Component {
   }
 
 
-  handleLogin = (data) => {
-    this.setState({
-      user: data
-    })
-  }
+  // handleLogin = (data) => {
+  //   this.setState({
+  //     user: data
+  //   })
+  // }
 
   handleSuccessfulAuth = (data) => {
-    this.props.handleLogin(data);
+    // this.props.handleLogin(data);
     this.props.history.push("/");
   }
 
-  handleSignIn = (e) => {
-    e.preventDefault();
-    let username = this.refs.username
-    let password = this.refs.password
-    this.props.onSignIn(username, password)
-  }
+  // handleSignIn = (e) => {
+  //   e.preventDefault();
+  //   let username = this.refs.username
+  //   let password = this.refs.password
+  //   this.props.onSignIn(username, password)
+  // }
 
   handleSubmit = e => {
     const { email, password } = this.state;
@@ -35,18 +43,14 @@ class Login extends Component {
     axios.post(
       "http://localhost:9005/auth/login",
       {
-       
-        email: email,
-        password: password
-          
-        
-      },
-      { withCredentials: true }
+       data: {
+         email: email,
+         password: password
+       },    
+      }
     ).then(res => {
-      console.log(res)
-      // if (res.data.logged_in) {
-      //   this.props.handleSuccessfulAuth(res.data)
-      // }
+      console.log(res);
+      this.handleSuccessfulAuth(res.data)
     }).catch(error => {
       console.log("loggin error", error)
     });
@@ -66,7 +70,7 @@ class Login extends Component {
                     <label htmlFor="username">Username</label>
                     <input
                     type="text"
-
+                    name="email"
                     placeholder="username"
                     onChange={this.handleChange}
                     required
@@ -80,7 +84,7 @@ class Login extends Component {
                     <label htmlFor="password">Password</label>
                     <input
                     type="password"
-
+                    name="password"
                     placeholder="password"
                     onChange={this.handleChange}
                     required />
