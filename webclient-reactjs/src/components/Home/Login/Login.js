@@ -21,41 +21,42 @@ class Login extends Component {
 
   // handleLogin = (data) => {
   //   this.setState({
-  //     user: data
+  //     data: data
   //   })
   // }
 
-  handleSuccessfulAuth = (data) => {
-    // this.props.handleLogin(data);
-    this.props.history.push("/");
-  }
-
-  // handleSignIn = (e) => {
-  //   e.preventDefault();
-  //   let username = this.refs.username
-  //   let password = this.refs.password
-  //   this.props.onSignIn(username, password)
+  // handleSuccessfulAuth = (data) => {
+  //   // this.props.handleLogin(data);
+  //   this.props.history.push("/");
   // }
 
-  handleSubmit = e => {
-    const { email, password } = this.state;
-  
-    axios.post(
-      "http://localhost:9005/auth/login",
-      {
-       data: {
-         email: email,
-         password: password
-       },    
-      }
-    ).then(res => {
-      console.log(res);
-      this.handleSuccessfulAuth(res.data)
-    }).catch(error => {
-      console.log("loggin error", error)
-    });
+  handleSignIn = (e) => {
     e.preventDefault();
+    let username = this.refs.username
+    let password = this.refs.password
+    this.props.onSignIn(username, password)
   }
+
+  // handleSubmit = e => {
+  //   const { email, password } = this.state;
+  
+  //   axios.post(
+  //     "http://localhost:9005/auth/login",
+  //     {
+  //      data: {
+  //        email: email,
+  //        password: password
+  //      },    
+  //     }
+  //   ).then(res => {
+  //     console.log(res);
+  //     // this.handleSuccessfulAuth(res.data)
+  //     this.props.history.push("/");
+  //   }).catch(error => {
+  //     console.log("loggin error", error)
+  //   });
+  //   e.preventDefault();
+  // }
 
   render() {
     return (
@@ -63,7 +64,7 @@ class Login extends Component {
           <h1>MyPass</h1>
         <div className="header">Login</div>
           <div className="content">
-            <form className="form" onSubmit={this.handleSubmit}>
+            <form className="form" onSubmit={this.handleSignIn}>
               <Row>
                 <Col xs={8} sm={8} md={12} lg={12}>
                   <div className="form-group">
@@ -91,7 +92,7 @@ class Login extends Component {
                   </div>
                 </Col>
               </Row>
-                <input type="submit" className="btn" value="Login" onSubmit={this.handleSubmit} />
+                <input type="submit" className="btn" value="Login" />
                 <button className="btn" type="button" onClick={ () => this.changeView("signUp")}>Create an Account</button>
             </form>
           </div>

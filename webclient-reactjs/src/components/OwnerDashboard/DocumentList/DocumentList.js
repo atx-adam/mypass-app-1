@@ -20,9 +20,9 @@ const DocumentList = ({
         <Document
         key={index}
         name={document.name}
-        url={document.url}
-        isSelected={document.isSelected}
-        isEditing={document.isEditing}
+        url={url}
+        isSelected={isSelected}
+        isEditing={isEditing}
         handleSelected={() => toggleSelected(document.id)}
         handleToggleEditing={() => toggleEditing(document.id)}
         setName={text => setName(text, document.id)}

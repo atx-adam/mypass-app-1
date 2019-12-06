@@ -108,34 +108,34 @@ const App = () => {
       <div className="App">
       {
         (user) ?
-        <Router>
-          <Switch>
-          <Route exact={true} path="/">
-              <ServiceProviderHomePage />
-          </Route>
-          <Route path="/service-provider-request">
-              <ServiceProviderOwnerDoc />
-          </Route>
-        </Switch>
-        </Router>
-        // <OwnerDashboard
-        // user={user}
-        // onSignOut={signOut}
-        // pendingDocument={pendingDocument}
-        // newDocumentSubmitHandler={newDocumentSubmitHandler}
-        // handleNameInput={handleNameInput}
-        // toggleFilter={toggleFilter}
-        // isFiltered={isFiltered}
-        // totalDocuments={totalDocuments}
-        // numberSelected={numberSelected}
-        // numberUnselected={numberUnselected}
-        // filteredDocuments={filteredDocuments}
-        // toggleSelected={toggleSelected}
-        // toggleEditing={toggleEditing}
-        // updateSearch={updateSearch}
-        // search={search}
-        // setName={setName}
-        // removeDocument={removeDocument} />
+        // <Router>
+        //   <Switch>
+        //   <Route exact={true} path="/">
+        //       <ServiceProviderHomePage />
+        //   </Route>
+        //   <Route path="/service-provider-request">
+        //       <ServiceProviderOwnerDoc />
+        //   </Route>
+        // </Switch>
+        // </Router>
+        <OwnerDashboard
+        user={user}
+        onSignOut={signOut}
+        pendingDocument={pendingDocument}
+        newDocumentSubmitHandler={newDocumentSubmitHandler}
+        handleNameInput={handleNameInput}
+        toggleFilter={toggleFilter}
+        isFiltered={isFiltered}
+        totalDocuments={totalDocuments}
+        numberSelected={numberSelected}
+        numberUnselected={numberUnselected}
+        filteredDocuments={filteredDocuments}
+        toggleSelected={toggleSelected}
+        toggleEditing={toggleEditing}
+        updateSearch={updateSearch}
+        search={search}
+        setName={setName}
+        removeDocument={removeDocument} />
         
         // <ServiceProviderOwnerDoc />
         :

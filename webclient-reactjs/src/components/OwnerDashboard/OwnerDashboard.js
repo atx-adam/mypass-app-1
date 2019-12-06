@@ -67,6 +67,8 @@ export const OwnerDashboard = ({
         <Col>
         <DocumentList
         filteredDocuments={filteredDocuments}
+        isEditing={isEditing}
+        isSelected={isSelected}
         toggleSelected={toggleSelected}
         toggleEditing={toggleEditing}
         setName={setName}
