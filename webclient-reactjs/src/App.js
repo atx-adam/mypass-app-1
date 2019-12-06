@@ -5,6 +5,7 @@ import { Home, OwnerDashboard, ToggleBar, ServiceProviderHomePage, ServiceProvid
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col'
+import axios from 'axios';
 
 const App = () => {
 
@@ -13,6 +14,16 @@ const App = () => {
   const [documents, setDocuments] = useState([]);
   const [search, setSearch] = useState("");
   const [pendingDocument, setPendingDocument] = useState("");
+
+  getDocuments = () => {
+    axios.get(`/owner/getdocs`).then((res) => {
+      console.log(res);
+      this.setState({documents: res.data})
+    });
+  }
+  componentDidMount = () => {
+    this.getDocuments()
+  }
 
   const signIn = (username, password) => {
     setUser({
