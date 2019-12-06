@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.scss';
 import { Home, OwnerDashboard, ToggleBar, ServiceProviderHomePage, ServiceProviderOwnerDoc } from './components/index';
@@ -15,15 +15,27 @@ const App = () => {
   const [search, setSearch] = useState("");
   const [pendingDocument, setPendingDocument] = useState("");
 
-  getDocuments = () => {
-    axios.get(`/owner/getdocs`).then((res) => {
-      console.log(res);
-      this.setState({documents: res.data})
-    });
-  }
-  componentDidMount = () => {
-    this.getDocuments()
-  }
+  useEffect(async () => {
+    const result = await axios.get(`/owner/docs`);
+    console.log(result.data)
+    setDocuments(result.data);
+  });
+
+  // componentDidMount() {
+  //    axios.get(`/owner/docs`).then(res => {
+  //     console.log(res);
+  //     this.setState({ documents: res.data })
+  //   })
+  // }
+
+  // const getDocuments = () => {
+  //   axios.get(`/owner/getdocs`).then((res) => {
+  //     console.log(res);
+  //     this.setState({documents: res.data})
+  //   });
+  // }
+  
+  
 
   const signIn = (username, password) => {
     setUser({
