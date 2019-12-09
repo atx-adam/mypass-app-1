@@ -16,8 +16,8 @@ const App = () => {
   const [pendingDocument, setPendingDocument] = useState("");
 
   useEffect(() => {
-    axios.get(`http://localhost:9005/owner/getdocs`).then(response => setDocuments(response.data))
-  }, [])
+    axios.post(`http://localhost:9005/owner/getdocs`).then(response => setDocuments(response.data))
+  })
 
   // componentDidMount() {
   //    axios.get(`/owner/docs`).then(res => {
