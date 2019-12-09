@@ -23,6 +23,7 @@ export const OwnerDashboard = ({
   removeDocument,
   newDocumentSubmitHandler,
   handleNameInput,
+  getDocuments,
   url,
   pendingDocument }) => {
   return (
@@ -34,7 +35,7 @@ export const OwnerDashboard = ({
             <a href="" onClick={onSignOut}>Sign out</a>
             <Row>
               <Col>
-            <form className="dashboard-form">
+            <form className="dashboard-form" onSubmit={getDocuments}>
               <input className="dash-input" type="file" name="document" id="document" onChange={handleNameInput} />
               <button className="dash-btn" type="button" name="submit" value="submit" onClick={newDocumentSubmitHandler}>
                 Submit
@@ -67,8 +68,6 @@ export const OwnerDashboard = ({
         <Col>
         <DocumentList
         filteredDocuments={filteredDocuments}
-        isEditing={isEditing}
-        isSelected={isSelected}
         toggleSelected={toggleSelected}
         toggleEditing={toggleEditing}
         setName={setName}

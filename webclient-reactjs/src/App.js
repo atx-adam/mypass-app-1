@@ -15,9 +15,13 @@ const App = () => {
   const [search, setSearch] = useState("");
   const [pendingDocument, setPendingDocument] = useState("");
 
-  useEffect(() => {
-    axios.post(`http://localhost:9005/owner/getdocs`).then(response => setDocuments(response.data))
-  })
+  const getDocuments = () => {
+    useEffect(() => {
+      axios.post(`http://localhost:9005/owner/getdocs`).then(response => setDocuments(response.data))
+    })
+  }
+
+  
 
   // componentDidMount() {
   //    axios.get(`/owner/docs`).then(res => {
@@ -141,6 +145,7 @@ const App = () => {
         // </Router>
         <OwnerDashboard
         user={user}
+        getDocuments={getDocuments}
         onSignOut={signOut}
         pendingDocument={pendingDocument}
         newDocumentSubmitHandler={newDocumentSubmitHandler}
